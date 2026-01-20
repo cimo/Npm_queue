@@ -30,30 +30,29 @@ import { Cu } from "@cimo/queue/dist/src/Main";
 
 ...
 
-const cu = new Cu(2); // The parameter are used only for parallel method (in this case max 2 parallel request).
-
 post("/api/v1/test1", () => {
-    cu.queueList.push(() => {
-        return new Promise<void>((resolve) => {
+    cu.list.push(() => {
+        return new Promise((resolve) => {
             ...
 
             resolve();
         });
     });
 
-    helperSrc.processQueueSerial();
+    cu.processSerial();
 });
 
 post("/api/v1/test2", () => {
-    cu.queueList.push(() => {
-        return new Promise<void>((resolve) => {
+    cu.list.push(() => {
+        return new Promise((resolve) => {
             ...
 
             resolve();
         });
     });
 
-    helperSrc.processQueueParallel();
+    cu.processParallel(2);
 });
 
+...
 ```

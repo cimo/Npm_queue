@@ -3,16 +3,15 @@ import * as model from "./Model.js";
 
 let serialIsBusy = false;
 let parallelCountRunning = 0;
-const parralelMax = 2;
 
-export const queueList: model.Ijob[] = [];
+export const list: model.Ijob[] = [];
 
 export const processSerial = (): void => {
     if (serialIsBusy) {
         return;
     }
 
-    const job = queueList.shift();
+    const job = list.shift();
 
     if (!job) {
         return;
@@ -27,9 +26,9 @@ export const processSerial = (): void => {
     });
 };
 
-export const processParallel = (): void => {
+export const processParallel = (parralelMax: number): void => {
     while (parallelCountRunning < parralelMax) {
-        const job = queueList.shift();
+        const job = list.shift();
 
         if (!job) {
             return;
@@ -40,7 +39,7 @@ export const processParallel = (): void => {
         job().finally(() => {
             parallelCountRunning--;
 
-            processParallel();
+            processParallel(parralelMax);
         });
     }
 };
