@@ -36,6 +36,8 @@ post("/api/v1/test1", () => {
             ...
 
             resolve();
+
+            return;
         });
     });
 
@@ -48,6 +50,8 @@ post("/api/v1/test2", () => {
             ...
 
             resolve();
+
+            return;
         });
     });
 
