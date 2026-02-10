@@ -30,7 +30,7 @@ import { Cu } from "@cimo/queue/dist/src/Main";
 
 ...
 
-post("/api/v1/test1", () => {
+post("/api/test1", () => {
     cu.list.push(() => {
         return new Promise((resolve) => {
             ...
@@ -44,7 +44,7 @@ post("/api/v1/test1", () => {
     cu.processSerial();
 });
 
-post("/api/v1/test2", () => {
+post("/api/test2", () => {
     cu.list.push(() => {
         return new Promise((resolve) => {
             ...
