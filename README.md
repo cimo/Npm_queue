@@ -26,12 +26,12 @@ Writed with native Typescript code and no dependencies are used.
 ```
 ...
 
-import { Cu } from "@cimo/queue/dist/src/Main";
+import { Cq } from "@cimo/queue/dist/src/Main";
 
 ...
 
 post("/api/test1", () => {
-    cu.list.push(() => {
+    cq.list.push(() => {
         return new Promise((resolve) => {
             ...
 
@@ -41,11 +41,11 @@ post("/api/test1", () => {
         });
     });
 
-    cu.processSerial();
+    cq.processSerial();
 });
 
 post("/api/test2", () => {
-    cu.list.push(() => {
+    cq.list.push(() => {
         return new Promise((resolve) => {
             ...
 
@@ -55,7 +55,7 @@ post("/api/test2", () => {
         });
     });
 
-    cu.processParallel(2);
+    cq.processParallel(2);
 });
 
 ...

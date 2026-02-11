@@ -1,2 +1,2 @@
-export * as CuModel from "./Model.js";
-export * as Cu from "./Service.js";
+export * as CqModel from "./Model.js";
+export * as Cq from "./Service.js";
