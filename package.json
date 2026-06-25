@@ -1,6 +1,6 @@
 {
     "name": "@cimo/queue",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "Queue job. Light, fast and secure.",
     "author": "cimo",
     "license": "MIT",
