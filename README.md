@@ -30,32 +30,53 @@ import { Cq } from "@cimo/queue/dist/src/Main";
 
 ...
 
-post("/api/test1", () => {
-    cq.list.push(() => {
-        return new Promise((resolve) => {
-            ...
+const cqSerial = new Cq(1);
+const cqParallel = new Cq(2);
 
-            resolve();
+post("/api/test-1", () => {
+    cqSerial.jobList.push({
+        id: "job_1",
+        callback: () => {
+            return new Promise((resolve) => {
+                ...
 
-            return;
-        });
+                resolve();
+
+                return;
+            });
+        }
     });
 
-    cq.processSerial();
+    cqSerial.process();
 });
 
-post("/api/test2", () => {
-    cq.list.push(() => {
-        return new Promise((resolve) => {
-            ...
+post("/api/test-2", () => {
+    cqParallel.jobList.push({
+        id: "job_2",
+        callback: () => {
+            return new Promise((resolve) => {
+                ...
 
-            resolve();
+                resolve();
 
-            return;
-        });
+                return;
+            });
+        }
     });
 
-    cq.processParallel(2);
+    cqParallel.process();
+});
+
+post("/api/test-3", () => {
+    const state = cqSerial.state("job_1");
+
+    const isRemoved = cqSerial.remove("job_1");
+});
+
+post("/api/test-4", () => {
+    const state = cqParallel.state("job_2");
+
+    const isRemoved = cqParallel.remove("job_2");
 });
 
 ...
