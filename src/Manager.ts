@@ -4,15 +4,17 @@ import * as model from "./Model.js";
 export default class Manager {
     private countMax: number;
     private countRunning: number;
-    private jobRunningList: string[];
+    private jobRunningList: model.Ijob[];
 
     jobList: model.Ijob[];
 
     private jobRunningRemove = (id: string): void => {
-        const index = this.jobRunningList.indexOf(id);
+        for (let a = 0; a < this.jobRunningList.length; a++) {
+            if (this.jobRunningList[a].id === id) {
+                this.jobRunningList.splice(a, 1);
 
-        if (index !== -1) {
-            this.jobRunningList.splice(index, 1);
+                return;
+            }
         }
     };
 
@@ -24,6 +26,22 @@ export default class Manager {
         this.jobList = [];
     }
 
+    checkOwner = (owner: string): boolean => {
+        for (let a = 0; a < this.jobList.length; a++) {
+            if (this.jobList[a].owner === owner) {
+                return true;
+            }
+        }
+
+        for (let a = 0; a < this.jobRunningList.length; a++) {
+            if (this.jobRunningList[a].owner === owner) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     process = (): void => {
         while (this.countRunning < this.countMax) {
             const jobShift = this.jobList.shift();
@@ -34,7 +52,7 @@ export default class Manager {
 
             this.countRunning++;
 
-            this.jobRunningList.push(jobShift.id);
+            this.jobRunningList.push(jobShift);
 
             jobShift.callback().finally(() => {
                 this.jobRunningRemove(jobShift.id);
@@ -53,8 +71,10 @@ export default class Manager {
             }
         }
 
-        if (this.jobRunningList.indexOf(id) !== -1) {
-            return { name: "running", position: 0 };
+        for (let a = 0; a < this.jobRunningList.length; a++) {
+            if (this.jobRunningList[a].id === id) {
+                return { name: "running", position: 0 };
+            }
         }
 
         return { name: "", position: 0 };

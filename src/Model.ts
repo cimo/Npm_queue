@@ -1,5 +1,6 @@
 export interface Ijob {
     id: string;
+    owner: string;
     callback: () => Promise<void>;
 }
 
